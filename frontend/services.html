@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — SW Technologies</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .svc-detail-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .svc-detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .svc-detail-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .svc-detail-card:hover::before { opacity: 1; }
+
+    .svc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+    .svc-big-icon {
+      width: 70px; height: 70px;
+      border-radius: 16px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .svc-num {
+      font-family: var(--font-head);
+      font-size: 4rem;
+      font-weight: 800;
+      color: rgba(0,229,255,0.06);
+      line-height: 1;
+    }
+    .svc-detail-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .svc-detail-card > p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      margin-bottom: 1.75rem;
+    }
+    .svc-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    .svc-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .svc-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* PROCESS */
+    .process { background: var(--navy-mid); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), rgba(0,229,255,0.1));
+    }
+    .step { text-align: center; padding: 0 0.5rem; position: relative; }
+    .step-circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin: 0 auto 1.25rem;
+      position: relative;
+      z-index: 1;
+    }
+    .step h4 { font-family: var(--font-head); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step p  { color: var(--gray); font-size: 0.8rem; line-height: 1.6; }
+
+    /* TECH STACK */
+    .tech-stack { padding: 70px 5%; }
+    .tech-pills { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+    .tech-pill {
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--gray);
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+    .tech-pill:hover { border-color: var(--accent); color: var(--white); }
+
+    @media (max-width: 1024px) {
+      .process-steps { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+      .process-steps::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- BANNER -->
+<div class="page-banner">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span>Services</span>
+  </div>
+  <div class="section-label" style="margin-bottom:0.75rem">What We Offer</div>
+  <h1>Our Services</h1>
+  <p>End-to-end web solutions designed to grow your business and deliver measurable results.</p>
+</div>
+
+<!-- SERVICES GRID -->
+<section>
+  <div class="section-head center">
+    <div class="section-label">Core Services</div>
+    <h2 class="section-title">Everything Your Web Presence Needs</h2>
+    <p class="section-sub">From design to development to digital growth — we handle it all under one roof.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="svc-detail-card">
+      <div class="svc-top">
+        <div class="svc-big-icon">🎨</div>
+        <div class="svc-num">01</div>
+      </div>
+      <h3>Website Design</h3>
+      <p>We craft visually stunning, on-brand websites that make an unforgettable first impression. Every design decision is guided by your goals, your audience, and proven UX principles.</p>
+      <ul class="svc-features">
+        <li>Custom UI/UX design tailored to your brand</li>
+        <li>Wireframing and interactive prototypes</li>
+        <li>Mobile-first, fully responsive layouts</li>
+        <li>Brand identity integration</li>
+        <li>Figma design files included</li>
+      </ul>
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote →</a>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-top">
+        <div class="svc-big-icon">💻</div>
+        <div class="svc-num">02</div>
+      </div>
+      <h3>Website Development</h3>
+      <p>We turn designs into blazing-fast, secure, and scalable websites. Our developers write clean, maintainable code that stands the test of time — and passes Google's Core Web Vitals.</p>
+      <ul class="svc-features">
+        <li>HTML5, CSS3, JavaScript development</li>
+        <li>React.js, Next.js, Node.js</li>
+        <li>Performance-optimized (90+ PageSpeed)</li>
+        <li>SSL, security hardening, backups</li>
+        <li>CMS integration (WordPress, Sanity)</li>
+      </ul>
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote →</a>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-top">
+        <div class="svc-big-icon">🛒</div>
+        <div class="svc-num">03</div>
+      </div>
+      <h3>E-Commerce Development</h3>
+      <p>We build online stores that sell. From product listings to checkout flows — every step is designed to reduce friction and increase conversions. Your store will scale as fast as your business does.</p>
+      <ul class="svc-features">
+        <li>WooCommerce & Shopify development</li>
+        <li>Payment gateway integration (Razorpay, Stripe)</li>
+        <li>Inventory & order management</li>
+        <li>Product catalogue and search</li>
+        <li>Cart abandonment optimization</li>
+      </ul>
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote →</a>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-top">
+        <div class="svc-big-icon">📈</div>
+        <div class="svc-num">04</div>
+      </div>
+      <h3>SEO & Digital Marketing</h3>
+      <p>A beautiful website is useless if no one finds it. Our data-driven SEO and marketing strategies drive real organic traffic, qualified leads, and sustainable growth — month after month.</p>
+      <ul class="svc-features">
+        <li>Technical SEO audit and fixing</li>
+        <li>Keyword research and on-page optimization</li>
+        <li>Google Analytics & Search Console setup</li>
+        <li>Content strategy and blog planning</li>
+        <li>Monthly performance reporting</li>
+      </ul>
+      <a href="contact.html" class="btn btn-primary btn-sm">Get a Quote →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="section-head center">
+    <div class="section-label">How We Work</div>
+    <h2 class="section-title">Our Process</h2>
+    <p class="section-sub">A clear, structured process that keeps you informed and your project on track — every time.</p>
+  </div>
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-circle">01</div>
+      <h4>Discovery</h4>
+      <p>We learn your goals, audience, and competitive landscape through a free consultation.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">02</div>
+      <h4>Strategy</h4>
+      <p>We map out a project plan, timeline, and deliverables tailored to your needs.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">03</div>
+      <h4>Design</h4>
+      <p>We create wireframes and high-fidelity mockups for your review and approval.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">04</div>
+      <h4>Build</h4>
+      <p>Our developers bring the design to life with clean, optimized, tested code.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">05</div>
+      <h4>Launch</h4>
+      <p>We deploy, test, and hand over — with 30 days of free post-launch support.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-stack">
+  <div class="section-head center">
+    <div class="section-label">Technologies</div>
+    <h2 class="section-title">Our Tech Stack</h2>
+    <p class="section-sub">We use modern, battle-tested technologies to build websites that last.</p>
+  </div>
+  <div class="tech-pills" style="justify-content:center">
+    <span class="tech-pill">HTML5</span>
+    <span class="tech-pill">CSS3</span>
+    <span class="tech-pill">JavaScript</span>
+    <span class="tech-pill">TypeScript</span>
+    <span class="tech-pill">React.js</span>
+    <span class="tech-pill">Next.js</span>
+    <span class="tech-pill">Node.js</span>
+    <span class="tech-pill">WordPress</span>
+    <span class="tech-pill">WooCommerce</span>
+    <span class="tech-pill">Shopify</span>
+    <span class="tech-pill">MongoDB</span>
+    <span class="tech-pill">MySQL</span>
+    <span class="tech-pill">Figma</span>
+    <span class="tech-pill">Google Analytics</span>
+    <span class="tech-pill">Vercel</span>
+    <span class="tech-pill">AWS</span>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--navy-mid);text-align:center;padding:80px 5%">
+  <div class="section-label">Ready to Start?</div>
+  <h2 class="section-title" style="margin:0 auto 1rem">Let's Build Your Project</h2>
+  <p style="color:var(--gray);max-width:500px;margin:0 auto 2.5rem">Tell us about your project and get a free, no-obligation quote within 24 hours.</p>
+  <a href="contact.html" class="btn btn-primary">Get a Free Quote →</a>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+      <p>We help businesses and startups establish a powerful online presence with fast, modern, and conversion-focused websites.</p>
+      <div class="social-icons">
+        <a href="#" title="Twitter">𝕏</a><a href="#" title="LinkedIn">in</a><a href="#" title="Instagram">ig</a><a href="#" title="GitHub">gh</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html">Web Design</a></li><li><a href="services.html">Web Development</a></li>
+        <li><a href="services.html">E-Commerce</a></li><li><a href="services.html">SEO & Marketing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-contact-item"><span class="icon">📍</span><span>42 Tech Park, Sector 18,<br>Noida, UP 201301</span></div>
+      <div class="footer-contact-item"><span class="icon">📞</span><span>+91 98765 43210</span></div>
+      <div class="footer-contact-item"><span class="icon">✉️</span><span>hello@swtechnologies.in</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 SW Technologies. All rights reserved.</p>
+    <p>Built with ❤️ in India</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

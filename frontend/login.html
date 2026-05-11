@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — SW Technologies</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 5% 60px;background:var(--navy)}
+    .auth-card{background:var(--card-bg);border:1px solid var(--border);border-radius:24px;padding:3rem;width:100%;max-width:460px}
+    .auth-logo{text-align:center;margin-bottom:2rem}
+    .auth-logo .logo{font-size:2rem}
+    .auth-card h2{font-family:var(--font-head);font-size:1.8rem;font-weight:800;margin-bottom:0.4rem;text-align:center}
+    .auth-card .sub{color:var(--gray);font-size:0.92rem;text-align:center;margin-bottom:2rem}
+    .api-err{background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.3);border-radius:10px;padding:0.9rem 1.1rem;color:#FF5252;font-size:0.88rem;margin-bottom:1rem;display:none}
+    .api-err.show{display:block}
+    .auth-footer{text-align:center;margin-top:1.5rem;color:var(--gray);font-size:0.9rem}
+    .auth-footer a{color:var(--accent);text-decoration:none;font-weight:600}
+    .auth-footer a:hover{text-decoration:underline}
+    .divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:var(--gray);font-size:0.82rem}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li><li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo"><a href="index.html" class="logo">SW<span>.</span>Tech</a></div>
+    <h2>Welcome Back</h2>
+    <p class="sub">Sign in to your SW Technologies account</p>
+    <div class="api-err" id="apiErr"></div>
+    <form id="loginForm">
+      <div class="form-group"><label>Email Address</label><input type="email" id="lemail" placeholder="you@example.com" required/><div class="field-error" id="lemail-err"></div></div>
+      <div class="form-group"><label>Password</label><input type="password" id="lpass" placeholder="Your password" required/><div class="field-error" id="lpass-err"></div></div>
+      <button type="submit" id="loginBtn" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem">Sign In →</button>
+    </form>
+    <div class="auth-footer">Don't have an account? <a href="register.html">Register here</a></div>
+    <div class="divider">or</div>
+    <div class="auth-footer" style="margin-top:0"><a href="index.html">← Back to Home</a></div>
+  </div>
+</div>
+<script src="main.js"></script><script src="api.js"></script>
+<script>
+// Redirect if already logged in
+if(getUser()) window.location.href='index.html';
+
+document.getElementById('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  document.getElementById('apiErr').classList.remove('show');
+  const btn=document.getElementById('loginBtn');btn.textContent='Signing in…';btn.disabled=true;
+  const r=await apiFetch('/auth/login',{method:'POST',body:JSON.stringify({
+    email:document.getElementById('lemail').value.trim(),
+    password:document.getElementById('lpass').value
+  })});
+  btn.textContent='Sign In →';btn.disabled=false;
+  if(r.ok){
+    setAuth(r.data.token,r.data.user);
+    window.location.href = r.data.user.isAdmin ? 'admin.html' : 'index.html';
+  } else {
+    const err=document.getElementById('apiErr');
+    err.textContent=r.data.errors?r.data.errors[0].msg:(r.data.error||'Login failed.');
+    err.classList.add('show');
+  }
+});
+</script>
+</body>
+</html>

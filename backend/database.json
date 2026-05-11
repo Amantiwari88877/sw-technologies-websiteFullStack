@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "email": "admin@swtechnologies.in",
+      "password": "$2a$12$zZYmBp4iP6dYIKacFEm6/.qR/HO2aw99daLnsE3NPjZz7mHvcK.GW",
+      "isAdmin": true,
+      "createdAt": "2026-05-11T04:06:40.109Z"
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Aman Tiwari",
+      "email": "aman2942002@gmail.com",
+      "phone": "+918887753308",
+      "subject": "ccssssss",
+      "service": "Website Design",
+      "message": "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "createdAt": "2026-05-11T04:07:54.067Z"
+    }
+  ],
+  "newsletter": [],
+  "quotes": []
+}

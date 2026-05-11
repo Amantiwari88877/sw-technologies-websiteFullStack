@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SW Technologies — Modern Web Development</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .hero{min-height:100vh;display:flex;align-items:center;padding:0 5%;position:relative;overflow:hidden;background:var(--navy)}
+    .hero::before{content:'';position:absolute;top:-20%;right:-10%;width:700px;height:700px;background:radial-gradient(circle,rgba(21,101,192,0.18) 0%,transparent 65%);pointer-events:none}
+    .hero-inner{max-width:700px;animation:fadeUp 0.9s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    .hero-label{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+    .hero-label::before{content:'';width:30px;height:2px;background:var(--accent)}
+    .hero h1{font-family:var(--font-head);font-size:clamp(3rem,6vw,5.5rem);font-weight:800;line-height:1.0;letter-spacing:-2px;margin-bottom:1.5rem}
+    .hero h1 .highlight{color:var(--accent)}
+    .hero p{font-size:1.15rem;color:var(--gray);max-width:520px;margin-bottom:2.5rem;line-height:1.85}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+    .hero-float{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:420px;animation:fadeUp 1.1s 0.2s ease both}
+    .hero-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:1rem}
+    .hero-card-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+    .hero-card-icon{width:44px;height:44px;border-radius:10px;background:rgba(0,229,255,0.12);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .hero-card h3{font-family:var(--font-head);font-size:0.95rem;font-weight:700;margin-bottom:0.2rem}
+    .hero-card p{font-size:0.82rem;color:var(--gray)}
+    .metric-row{display:flex;gap:1.5rem;border-top:1px solid var(--border);padding-top:1.25rem;margin-top:0.5rem}
+    .metric{text-align:center;flex:1}
+    .metric strong{display:block;font-family:var(--font-head);font-size:1.6rem;font-weight:800;color:var(--accent)}
+    .metric span{font-size:0.78rem;color:var(--gray)}
+    .services-overview{background:var(--navy-mid)}
+    .svc-card h3{font-family:var(--font-head);font-size:1.15rem;font-weight:700;margin-bottom:0.75rem}
+    .svc-card p{color:var(--gray);font-size:0.92rem;line-height:1.8}
+    .svc-card .learn-more{display:inline-flex;align-items:center;gap:0.4rem;color:var(--accent);font-size:0.85rem;font-weight:600;text-decoration:none;margin-top:1.25rem;transition:var(--transition)}
+    .svc-card .learn-more:hover{gap:0.7rem}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+    .why-stats{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+    .why-stat{display:flex;align-items:center;gap:1rem;padding:1rem}
+    .why-stat strong{font-family:var(--font-head);font-size:2.5rem;font-weight:800;color:var(--accent)}
+    .why-stat span{color:var(--gray);font-size:0.9rem}
+    .strength-card{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.5rem}
+    .strength-num{font-family:var(--font-head);font-size:2rem;font-weight:800;color:rgba(0,229,255,0.2);line-height:1;min-width:48px}
+    .strength-card h4{font-family:var(--font-head);font-weight:700;margin-bottom:0.4rem}
+    .strength-card p{color:var(--gray);font-size:0.9rem;line-height:1.7}
+    .testimonials{background:var(--navy-mid)}
+    .testi-card{position:relative}
+    .testi-card::before{content:'"';position:absolute;top:-10px;left:24px;font-size:6rem;font-family:var(--font-head);color:var(--accent);opacity:0.15;line-height:1}
+    .testi-card p{color:var(--gray);font-size:0.97rem;line-height:1.85;margin-bottom:1.5rem;font-style:italic}
+    .testi-author{display:flex;align-items:center;gap:0.85rem}
+    .testi-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:1.1rem;color:var(--navy);flex-shrink:0}
+    .testi-author strong{display:block;font-size:0.95rem}
+    .testi-author span{color:var(--gray);font-size:0.82rem}
+    .stars{color:#FFD700;font-size:0.85rem;margin-bottom:0.25rem}
+    .cta-band{background:linear-gradient(135deg,var(--blue) 0%,#0D47A1 100%);padding:80px 5%;text-align:center;position:relative;overflow:hidden}
+    .cta-band h2{font-family:var(--font-head);font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:1rem;position:relative}
+    .cta-band p{color:rgba(240,244,255,0.75);margin-bottom:2rem;font-size:1.05rem;position:relative}
+    .cta-band .btn-primary{background:white;color:var(--blue)}
+    .cta-band .btn-primary:hover{background:var(--accent);color:var(--navy)}
+    .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+    .newsletter-section{background:var(--navy-mid);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 5%}
+    .newsletter-inner{max-width:600px;margin:0 auto;text-align:center}
+    .newsletter-inner h3{font-family:var(--font-head);font-size:1.6rem;font-weight:800;margin-bottom:0.5rem}
+    .newsletter-inner p{color:var(--gray);margin-bottom:1.5rem}
+    .newsletter-form{display:flex;gap:0.75rem;max-width:480px;margin:0 auto}
+    .newsletter-form input{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1.1rem;color:var(--white);font-family:var(--font-body);font-size:0.95rem;outline:none;transition:var(--transition)}
+    .newsletter-form input:focus{border-color:var(--accent)}
+    .newsletter-msg{margin-top:0.75rem;font-size:0.9rem;min-height:1.2rem}
+    .newsletter-msg.success{color:var(--accent2)}
+    .newsletter-msg.error{color:#FF5252}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;padding:1rem}
+    .modal-overlay.open{display:flex}
+    .modal-box{background:var(--navy-mid);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;position:relative;animation:fadeUp 0.3s ease}
+    .modal-close{position:absolute;top:1rem;right:1.25rem;background:none;border:none;color:var(--gray);font-size:1.6rem;cursor:pointer;line-height:1;transition:var(--transition)}
+    .modal-close:hover{color:var(--white)}
+    .modal-box h3{font-family:var(--font-head);font-size:1.5rem;font-weight:800;margin-bottom:0.4rem}
+    .modal-box>p{color:var(--gray);font-size:0.9rem;margin-bottom:1.75rem}
+    .quote-success{display:none;text-align:center;padding:2rem 0}
+    .quote-success .si{font-size:4rem;margin-bottom:1rem}
+    .quote-success h4{font-family:var(--font-head);font-size:1.4rem;font-weight:800;margin-bottom:0.5rem}
+    .quote-success p{color:var(--gray)}
+    .api-err{color:#FF5252;font-size:0.88rem;margin-bottom:0.75rem;display:none}
+    @media(max-width:1024px){.hero-float{display:none}.why-grid{grid-template-columns:1fr}}
+    @media(max-width:768px){.hero{min-height:auto;padding-top:100px;padding-bottom:80px}.newsletter-form{flex-direction:column}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Web Development Studio</div>
+    <h1>We Build Websites<br>That <span class="highlight">Win</span> Clients</h1>
+    <p>SW Technologies crafts fast, modern, and fully responsive websites that help businesses and startups stand out — and convert visitors into customers.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="openQuote()">Get a Free Quote →</button>
+      <a href="services.html" class="btn btn-outline">View Our Services</a>
+    </div>
+  </div>
+  <div class="hero-float">
+    <div class="hero-card">
+      <div class="hero-card-row"><div class="hero-card-icon">🚀</div><div><h3>Project Launched</h3><p>E-Commerce Platform for StyleHub</p></div></div>
+      <div class="hero-card-row" style="margin-bottom:0"><div class="hero-card-icon">⚡</div><div><h3>Performance Score</h3><p>98/100 on Google PageSpeed</p></div></div>
+      <div class="metric-row">
+        <div class="metric"><strong>50+</strong><span>Projects</span></div>
+        <div class="metric"><strong>30+</strong><span>Clients</span></div>
+        <div class="metric"><strong>3+</strong><span>Years</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services-overview">
+  <div class="section-head center">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Services That Drive Growth</h2>
+    <p class="section-sub">From pixel-perfect designs to robust development — we cover everything your online presence needs.</p>
+  </div>
+  <div class="grid-4">
+    <div class="card svc-card"><div class="svc-icon">🎨</div><h3>Web Design</h3><p>Stunning, user-centric designs that reflect your brand and keep visitors engaged.</p><a href="services.html" class="learn-more">Learn more →</a></div>
+    <div class="card svc-card"><div class="svc-icon">💻</div><h3>Web Development</h3><p>Clean, scalable code delivering fast, secure, and reliable websites.</p><a href="services.html" class="learn-more">Learn more →</a></div>
+    <div class="card svc-card"><div class="svc-icon">🛒</div><h3>E-Commerce</h3><p>Full-featured online stores that convert browsers into buyers.</p><a href="services.html" class="learn-more">Learn more →</a></div>
+    <div class="card svc-card"><div class="svc-icon">📈</div><h3>SEO</h3><p>Data-driven SEO strategies that boost visibility and grow revenue.</p><a href="services.html" class="learn-more">Learn more →</a></div>
+  </div>
+</section>
+
+<section class="why-us">
+  <div class="why-grid">
+    <div class="why-left">
+      <div class="section-label">Why SW Technologies</div>
+      <h2 class="section-title">Built Different,<br>Delivered Better</h2>
+      <p class="section-sub">We don't just build websites — we build growth engines.</p>
+      <div class="why-stats">
+        <div class="why-stat card" style="padding:1.25rem 1.5rem"><strong>50+</strong><span>Projects<br>Delivered</span></div>
+        <div class="why-stat card" style="padding:1.25rem 1.5rem"><strong>98%</strong><span>Client<br>Satisfaction</span></div>
+        <div class="why-stat card" style="padding:1.25rem 1.5rem"><strong>3+</strong><span>Years<br>Experience</span></div>
+      </div>
+    </div>
+    <div class="why-right">
+      <div class="strength-card"><div class="strength-num">01</div><div><h4>Speed-First Development</h4><p>Every site hits 90+ on Google PageSpeed. Performance is a core deliverable.</p></div></div>
+      <div class="strength-card"><div class="strength-num">02</div><div><h4>Mobile-First by Default</h4><p>All designs tested across 320px to 4K. Your site looks flawless everywhere.</p></div></div>
+      <div class="strength-card"><div class="strength-num">03</div><div><h4>Transparent Communication</h4><p>Weekly updates, clear timelines, and no surprise invoices.</p></div></div>
+      <div class="strength-card"><div class="strength-num">04</div><div><h4>Post-Launch Support</h4><p>30-day free support and flexible maintenance plans after launch.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="section-head center">
+    <div class="section-label">Client Love</div>
+    <h2 class="section-title">What Our Clients Say</h2>
+  </div>
+  <div class="grid-3">
+    <div class="card testi-card"><div class="stars">★★★★★</div><p>SW Technologies completely transformed our online presence. Conversions jumped 40% since launch.</p><div class="testi-author"><div class="testi-avatar">RK</div><div><strong>Rahul Kapoor</strong><span>CEO, StyleHub India</span></div></div></div>
+    <div class="card testi-card"><div class="stars">★★★★★</div><p>The SW team understood exactly what we needed. Our leads tripled in just 3 months.</p><div class="testi-author"><div class="testi-avatar">PS</div><div><strong>Priya Sharma</strong><span>Founder, GreenLeaf Organics</span></div></div></div>
+    <div class="card testi-card"><div class="stars">★★★★★</div><p>Professional, responsive, and talented. Delivered on time and exceeded all expectations.</p><div class="testi-author"><div class="testi-avatar">AT</div><div><strong>Arjun Thakur</strong><span>Director, Nova Consulting</span></div></div></div>
+  </div>
+</section>
+
+<div class="newsletter-section">
+  <div class="newsletter-inner">
+    <div class="section-label">Stay Updated</div>
+    <h3>Subscribe to Our Newsletter</h3>
+    <p>Get tips, case studies, and updates on web design & development.</p>
+    <form class="newsletter-form" id="nlForm">
+      <input type="email" id="nlEmail" placeholder="your@email.com" required/>
+      <button type="submit" class="btn btn-primary" style="white-space:nowrap">Subscribe →</button>
+    </form>
+    <div class="newsletter-msg" id="nlMsg"></div>
+  </div>
+</div>
+
+<section class="cta-band">
+  <h2>Ready to Build Something Great?</h2>
+  <p>Get a free consultation and quote — no strings attached.</p>
+  <div class="cta-btns">
+    <button class="btn btn-primary" onclick="openQuote()">Get a Free Quote</button>
+    <a href="about.html" class="btn btn-outline">Learn About Us</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+      <p>Fast, modern, conversion-focused websites for businesses and startups.</p>
+      <div class="social-icons"><a href="#">𝕏</a><a href="#">in</a><a href="#">ig</a><a href="#">gh</a></div>
+    </div>
+    <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Web Design</a></li><li><a href="services.html">Web Development</a></li><li><a href="services.html">E-Commerce</a></li><li><a href="services.html">SEO & Marketing</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4>
+      <div class="footer-contact-item"><span class="icon">📍</span><span>42 Tech Park, Sector 18, Noida</span></div>
+      <div class="footer-contact-item"><span class="icon">📞</span><span>+91 98765 43210</span></div>
+      <div class="footer-contact-item"><span class="icon">✉️</span><span>hello@swtechnologies.in</span></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 SW Technologies. All rights reserved.</p><p>Built with ❤️ in India</p></div>
+</footer>
+
+<!-- QUOTE MODAL -->
+<div class="modal-overlay" id="quoteModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeQuote()">&times;</button>
+    <h3>Get a Free Quote</h3>
+    <p>Tell us about your project — we'll reply within 24 hours.</p>
+    <div id="quoteSuccess" class="quote-success">
+      <div class="si">🎉</div>
+      <h4>Quote Request Received!</h4>
+      <p>We'll review your project and send a detailed quote within 24 hours.</p>
+      <button class="btn btn-primary" style="margin-top:1.5rem" onclick="closeQuote()">Close</button>
+    </div>
+    <form id="quoteForm">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="qn" placeholder="Rahul Sharma"/><div class="field-error" id="qn-e"></div></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="qe" placeholder="rahul@example.com"/><div class="field-error" id="qe-e"></div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Phone *</label><input type="tel" id="qp" placeholder="+91 98765 43210"/><div class="field-error" id="qp-e"></div></div>
+        <div class="form-group"><label>Service Required *</label>
+          <select id="qs"><option value="">Select a service</option><option>Website Design</option><option>Website Development</option><option>E-Commerce Development</option><option>SEO & Digital Marketing</option><option>Full Package</option><option>Other</option></select>
+          <div class="field-error" id="qs-e"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Budget *</label>
+        <select id="qb"><option value="">Select budget range</option><option>Under ₹10,000</option><option>₹10,000 – ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>Above ₹1,00,000</option></select>
+        <div class="field-error" id="qb-e"></div>
+      </div>
+      <div class="form-group"><label>Project Details *</label><textarea id="qm" style="min-height:100px" placeholder="Tell us about your project..."></textarea><div class="field-error" id="qm-e"></div></div>
+      <div class="api-err" id="q-api-err"></div>
+      <button type="submit" class="btn btn-primary" id="qBtn" style="width:100%;justify-content:center">Submit Quote Request →</button>
+    </form>
+  </div>
+</div>
+
+<script src="main.js"></script><script src="api.js"></script>
+<script>
+function openQuote(){document.getElementById('quoteModal').classList.add('open');document.body.style.overflow='hidden'}
+function closeQuote(){document.getElementById('quoteModal').classList.remove('open');document.body.style.overflow='';document.getElementById('quoteForm').style.display='';document.getElementById('quoteSuccess').style.display='none'}
+document.getElementById('quoteModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeQuote()});
+
+document.getElementById('quoteForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  document.querySelectorAll('.field-error').forEach(el=>{el.textContent='';el.style.display='none'});
+  document.getElementById('q-api-err').style.display='none';
+  const btn=document.getElementById('qBtn');btn.textContent='Submitting…';btn.disabled=true;
+  const r=await apiFetch('/quote',{method:'POST',body:JSON.stringify({
+    name:document.getElementById('qn').value.trim(),
+    email:document.getElementById('qe').value.trim(),
+    phone:document.getElementById('qp').value.trim(),
+    service:document.getElementById('qs').value,
+    budget:document.getElementById('qb').value,
+    message:document.getElementById('qm').value.trim()
+  })});
+  btn.textContent='Submit Quote Request →';btn.disabled=false;
+  if(r.ok){document.getElementById('quoteForm').style.display='none';document.getElementById('quoteSuccess').style.display='block'}
+  else if(r.data.errors){r.data.errors.forEach(er=>{const map={name:'qn-e',email:'qe-e',phone:'qp-e',service:'qs-e',budget:'qb-e',message:'qm-e'};const el=document.getElementById(map[er.path]);if(el){el.textContent=er.msg;el.style.display='block'}})}
+  else{const g=document.getElementById('q-api-err');g.textContent=r.data.error||'Error. Try again.';g.style.display='block'}
+});
+
+document.getElementById('nlForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const email=document.getElementById('nlEmail').value.trim();
+  const msg=document.getElementById('nlMsg');
+  const btn=e.target.querySelector('button');btn.textContent='…';btn.disabled=true;
+  const r=await apiFetch('/newsletter/subscribe',{method:'POST',body:JSON.stringify({email})});
+  btn.textContent='Subscribe →';btn.disabled=false;
+  msg.className='newsletter-msg '+(r.ok?'success':'error');
+  msg.textContent=r.ok?r.data.message:(r.data.error||'Error. Try again.');
+  if(r.ok)e.target.reset();
+});
+</script>
+</body>
+</html>

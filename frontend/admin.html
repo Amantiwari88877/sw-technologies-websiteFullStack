@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel — SW Technologies</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .admin-wrap{padding:100px 5% 60px;min-height:100vh}
+    .admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+    .admin-header h1{font-family:var(--font-head);font-size:2rem;font-weight:800}
+    .admin-header span{color:var(--gray);font-size:0.9rem}
+    .tabs{display:flex;gap:0.5rem;margin-bottom:2rem;flex-wrap:wrap}
+    .tab-btn{padding:0.6rem 1.4rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--gray);font-family:var(--font-head);font-size:0.88rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+    .tab-btn.active,.tab-btn:hover{background:var(--accent);color:var(--navy);border-color:var(--accent)}
+    .tab-pane{display:none}
+    .tab-pane.active{display:block}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem}
+    .stat-card .num{font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--accent)}
+    .stat-card .lbl{color:var(--gray);font-size:0.85rem;margin-top:0.2rem}
+    .data-table{width:100%;border-collapse:collapse;background:var(--card-bg);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+    .data-table th{background:rgba(0,229,255,0.08);padding:0.9rem 1rem;text-align:left;font-family:var(--font-head);font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+    .data-table td{padding:0.85rem 1rem;border-top:1px solid var(--border);color:var(--gray);font-size:0.88rem;vertical-align:top}
+    .data-table tr:hover td{background:rgba(0,229,255,0.03)}
+    .data-table td strong{color:var(--white)}
+    .del-btn{background:rgba(255,82,82,0.1);border:1px solid rgba(255,82,82,0.3);color:#FF5252;padding:0.35rem 0.85rem;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+    .del-btn:hover{background:rgba(255,82,82,0.2)}
+    .badge-admin{background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);color:#FFD700;padding:0.2rem 0.7rem;border-radius:50px;font-size:0.75rem;font-weight:700}
+    .badge-user{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);color:var(--accent);padding:0.2rem 0.7rem;border-radius:50px;font-size:0.75rem;font-weight:700}
+    .badge-pending{background:rgba(255,165,0,0.1);border:1px solid rgba(255,165,0,0.3);color:orange;padding:0.2rem 0.7rem;border-radius:50px;font-size:0.75rem}
+    .empty-state{text-align:center;padding:3rem;color:var(--gray)}
+    .empty-state div{font-size:2.5rem;margin-bottom:0.75rem}
+    .msg-box{max-width:320px;white-space:pre-wrap;word-break:break-word}
+    .loading{text-align:center;padding:3rem;color:var(--gray)}
+    .auth-gate{display:none;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:5%}
+    .auth-gate.show{display:flex;flex-direction:column;gap:1rem}
+    @media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr)}.data-table{font-size:0.8rem}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">SW<span>.</span>Tech</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li><li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="auth-gate" id="authGate">
+  <div style="font-size:3rem">🔒</div>
+  <h2 style="font-family:var(--font-head);font-size:1.8rem;font-weight:800">Admin Access Required</h2>
+  <p style="color:var(--gray)">You must be logged in as an admin to view this page.</p>
+  <a href="login.html" class="btn btn-primary">Go to Login →</a>
+</div>
+
+<div class="admin-wrap" id="adminWrap" style="display:none">
+  <div class="admin-header">
+    <div>
+      <div class="section-label">Admin Panel</div>
+      <h1>⚙️ Dashboard</h1>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center">
+      <span id="adminName"></span>
+      <button class="btn btn-outline btn-sm" id="adminLogout">Logout</button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="num" id="stContacts">—</div><div class="lbl">📩 Contact Messages</div></div>
+    <div class="stat-card"><div class="num" id="stUsers">—</div><div class="lbl">👥 Registered Users</div></div>
+    <div class="stat-card"><div class="num" id="stQuotes">—</div><div class="lbl">💰 Quote Requests</div></div>
+    <div class="stat-card"><div class="num" id="stNews">—</div><div class="lbl">📧 Newsletter Subs</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="contacts">📩 Contacts</button>
+    <button class="tab-btn" data-tab="users">👥 Users</button>
+    <button class="tab-btn" data-tab="quotes">💰 Quotes</button>
+    <button class="tab-btn" data-tab="newsletter">📧 Newsletter</button>
+  </div>
+
+  <div id="tab-contacts" class="tab-pane active">
+    <div class="loading" id="contactsLoading">Loading…</div>
+    <div id="contactsTable"></div>
+  </div>
+  <div id="tab-users" class="tab-pane">
+    <div class="loading" id="usersLoading">Loading…</div>
+    <div id="usersTable"></div>
+  </div>
+  <div id="tab-quotes" class="tab-pane">
+    <div class="loading" id="quotesLoading">Loading…</div>
+    <div id="quotesTable"></div>
+  </div>
+  <div id="tab-newsletter" class="tab-pane">
+    <div class="loading" id="newsletterLoading">Loading…</div>
+    <div id="newsletterTable"></div>
+  </div>
+</div>
+
+<script src="main.js"></script><script src="api.js"></script>
+<script>
+const user = getUser();
+if (!user || !user.isAdmin) {
+  document.getElementById('authGate').classList.add('show');
+} else {
+  document.getElementById('adminWrap').style.display = 'block';
+  document.getElementById('adminName').textContent = '👤 ' + user.name;
+  document.getElementById('adminLogout').addEventListener('click', () => { clearAuth(); window.location.href = 'index.html'; });
+
+  function fmt(dt) {
+    const d = new Date(dt);
+    return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function emptyState(msg) {
+    return `<div class="empty-state"><div>📭</div><p>${msg}</p></div>`;
+  }
+
+  async function loadContacts() {
+    const r = await apiFetch('/admin/contacts');
+    document.getElementById('contactsLoading').style.display = 'none';
+    document.getElementById('stContacts').textContent = r.ok ? r.data.length : '—';
+    if (!r.ok || r.data.length === 0) { document.getElementById('contactsTable').innerHTML = emptyState('No contact messages yet.'); return; }
+    let html = `<table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Service</th><th>Message</th><th>Date</th><th>Action</th></tr></thead><tbody>`;
+    r.data.forEach(c => {
+      html += `<tr><td><strong>${c.name}</strong></td><td>${c.email}</td><td>${c.phone}</td><td>${c.subject}</td><td>${c.service}</td><td><div class="msg-box">${c.message.substring(0,120)}${c.message.length>120?'…':''}</div></td><td style="white-space:nowrap">${fmt(c.createdAt)}</td><td><button class="del-btn" onclick="delContact(${c.id})">Delete</button></td></tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('contactsTable').innerHTML = html;
+  }
+
+  async function loadUsers() {
+    const r = await apiFetch('/admin/users');
+    document.getElementById('usersLoading').style.display = 'none';
+    document.getElementById('stUsers').textContent = r.ok ? r.data.length : '—';
+    if (!r.ok || r.data.length === 0) { document.getElementById('usersTable').innerHTML = emptyState('No registered users yet.'); return; }
+    let html = `<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody>`;
+    r.data.forEach(u => {
+      html += `<tr><td>${u.id}</td><td><strong>${u.name}</strong></td><td>${u.email}</td><td>${u.isAdmin?'<span class="badge-admin">Admin</span>':'<span class="badge-user">User</span>'}</td><td>${fmt(u.createdAt)}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('usersTable').innerHTML = html;
+  }
+
+  async function loadQuotes() {
+    const r = await apiFetch('/admin/quotes');
+    document.getElementById('quotesLoading').style.display = 'none';
+    document.getElementById('stQuotes').textContent = r.ok ? r.data.length : '—';
+    if (!r.ok || r.data.length === 0) { document.getElementById('quotesTable').innerHTML = emptyState('No quote requests yet.'); return; }
+    let html = `<table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Budget</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody>`;
+    r.data.forEach(q => {
+      html += `<tr><td><strong>${q.name}</strong></td><td>${q.email}</td><td>${q.phone}</td><td>${q.service}</td><td>${q.budget}</td><td><div class="msg-box">${q.message.substring(0,100)}${q.message.length>100?'…':''}</div></td><td><span class="badge-pending">${q.status}</span></td><td style="white-space:nowrap">${fmt(q.createdAt)}</td><td><button class="del-btn" onclick="delQuote(${q.id})">Delete</button></td></tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('quotesTable').innerHTML = html;
+  }
+
+  async function loadNewsletter() {
+    const r = await apiFetch('/admin/newsletter');
+    document.getElementById('newsletterLoading').style.display = 'none';
+    document.getElementById('stNews').textContent = r.ok ? r.data.length : '—';
+    if (!r.ok || r.data.length === 0) { document.getElementById('newsletterTable').innerHTML = emptyState('No newsletter subscribers yet.'); return; }
+    let html = `<table class="data-table"><thead><tr><th>#</th><th>Email</th><th>Subscribed On</th></tr></thead><tbody>`;
+    r.data.forEach(n => { html += `<tr><td>${n.id}</td><td><strong>${n.email}</strong></td><td>${fmt(n.subscribedAt)}</td></tr>`; });
+    html += '</tbody></table>';
+    document.getElementById('newsletterTable').innerHTML = html;
+  }
+
+  async function delContact(id) {
+    if (!confirm('Delete this contact message?')) return;
+    const r = await apiFetch('/admin/contacts/'+id, { method:'DELETE' });
+    if (r.ok) loadContacts(); else alert('Error deleting.');
+  }
+  async function delQuote(id) {
+    if (!confirm('Delete this quote request?')) return;
+    const r = await apiFetch('/admin/quotes/'+id, { method:'DELETE' });
+    if (r.ok) loadQuotes(); else alert('Error deleting.');
+  }
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Load all
+  loadContacts(); loadUsers(); loadQuotes(); loadNewsletter();
+}
+</script>
+</body>
+</html>

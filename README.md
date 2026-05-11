@@ -1,9 +1,9 @@
 # SW Technologies — Full-Stack Web Application
 
 ## 🚀 Tech Stack
-- **Frontend**: HTML, CSS, Vanilla JS (your original Round 1 site, enhanced)
+- **Frontend**: HTML, CSS, Vanilla JS
 - **Backend**: Node.js + Express.js
-- **Database**: JSON file-based (no native modules needed — works anywhere)
+- **Database**: JSON file-based 
 - **Auth**: JWT tokens (7-day expiry) + bcrypt password hashing
 
 ---

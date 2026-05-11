@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = '/api';
 function getToken() { return localStorage.getItem('sw_token'); }
 function getUser() { try { return JSON.parse(localStorage.getItem('sw_user')); } catch { return null; } }
 function setAuth(token, user) { localStorage.setItem('sw_token', token); localStorage.setItem('sw_user', JSON.stringify(user)); }
